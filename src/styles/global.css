@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+body {
+	cursor: crosshair;
+}
+
+input, textarea {
+  cursor: text;
+}
 .glass-card {
 	/* Vidro bem translúcido para o starfield não "sumir" */
 	background: rgba(0, 0, 0, 0.2);
