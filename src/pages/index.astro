@@ -217,5 +217,39 @@ import '../styles/global.css'; // Se tiver estilos globais, senão pode remover
       setTimeout(init, 100);
 
     </script>
+
+  <!-- Confete de aniversário (sem mexer no script existente) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      if (typeof (window as any).confetti !== 'function') return;
+
+      const duration = 5 * 1000; // 5 segundos
+      const animationEnd = Date.now() + duration;
+
+      function frame() {
+        (window as any).confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 70,
+          origin: { x: 0 },
+        });
+
+        (window as any).confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 70,
+          origin: { x: 1 },
+        });
+
+        if (Date.now() < animationEnd) {
+          requestAnimationFrame(frame);
+        }
+      }
+
+      // Dá um pequeno delay pra bater com a entrada do card
+      setTimeout(frame, 2500);
+    });
+  </script>
   </body>
 </html>
