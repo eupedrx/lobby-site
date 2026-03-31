@@ -1,0 +1,20 @@
+---
+// Componente do efeito de estrelas em movimento
+---
+
+<canvas id="starfield" class="fixed inset-0 z-0 w-full h-full"></canvas>
+
+<script>
+  import { Starfield } from '../scripts/starfield';
+
+  const canvas = document.getElementById('starfield') as HTMLCanvasElement;
+  if (canvas) {
+    const starfield = new Starfield(canvas, {
+      numStars: 800,
+      speed: 0.05,
+    });
+
+    window.addEventListener('resize', () => starfield.resize());
+    setTimeout(() => starfield.start(), 100);
+  }
+</script>

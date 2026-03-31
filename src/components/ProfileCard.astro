@@ -1,0 +1,67 @@
+---
+import SocialLinks from './SocialLinks.astro';
+
+interface Props {
+  name: string;
+  avatar: string;
+  tagline: string;
+  bio: string;
+  socialLinks: Array<{
+    name: string;
+    icon: string;
+    url: string;
+  }>;
+}
+
+const { name, avatar, tagline, bio, socialLinks } = Astro.props;
+---
+
+<main
+  id="content"
+  class="relative z-10 flex items-center justify-center h-screen"
+  style="opacity: 0; transform: translateY(80px) scale(0.85); transition: opacity 2.5s ease-out, transform 2.5s ease-out;"
+>
+  <div class="w-full max-w-sm p-8 rounded-2xl text-center glass-card">
+    <div class="flex items-center justify-center w-32 h-32 mx-auto mb-6">
+      <img
+        src={avatar}
+        alt="Avatar"
+        class="w-full h-full object-cover rounded-full border-2 border-white/30 shadow-[0_0_5px_white]"
+      />
+    </div>
+
+    <h1 id="title-typing" class="text-3xl font-bold mb-2 drop-shadow-lg"></h1>
+
+    <span class="inline-block px-3 py-1 mb-6 text-xs border rounded-full">
+      {tagline}
+    </span>
+
+    <p class="text-gray-300 mb-8 text-sm leading-relaxed" set:html={bio} />
+
+    <SocialLinks links={socialLinks} />
+  </div>
+</main>
+
+<script>
+  import { TypingEffect } from '../scripts/typing-effect';
+  import { CardReveal } from '../scripts/card-reveal';
+
+  const content = document.getElementById('content');
+  const titleEl = document.getElementById('title-typing');
+
+  if (content && titleEl) {
+    const typingEffect = new TypingEffect(titleEl, 'satboy', 270);
+    const cardReveal = new CardReveal(content, 120, () => {
+      typingEffect.start();
+    });
+
+    function animate() {
+      cardReveal.update();
+      if (!cardReveal.isRevealed()) {
+        requestAnimationFrame(animate);
+      }
+    }
+
+    animate();
+  }
+</script>
