@@ -1,7 +1,7 @@
 export const profileData = {
   name: 'satboy',
   avatar: '/glasses.jpg',
-  tagline: 'tech enthusiast & fps player',
+  tagline: 'tech & fps enthusiast and music lover.',
   bio: 'god <span class="text-white drop-shadow-[0_0_5px_white]">did</span>.',
   socialLinks: [
     {
