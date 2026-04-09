@@ -1,0 +1,51 @@
+---
+import QuoteCard from './QuoteCard.astro';
+import { quotes } from '../data/quotes';
+---
+
+<section class="quotes-section">
+  <h2 class="quotes-title">Favorite Quotes</h2>
+  <div class="quotes-grid">
+    {quotes.map((quote) => (
+      <QuoteCard author={quote.author} quote={quote.quote} />
+    ))}
+  </div>
+</section>
+
+<style>
+  .quotes-section {
+    width: 100%;
+    padding: 3rem 1rem;
+    text-align: center;
+  }
+
+  .quotes-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .quotes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .quotes-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .quotes-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+</style>
