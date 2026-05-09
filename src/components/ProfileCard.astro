@@ -137,34 +137,46 @@ const { name, avatar, tagline, bio, socialLinks } = Astro.props;
   // Scroll bidirecional
   if (scrollIndicator) {
     let isPointingUp = false;
+    let isAutoScrolling = false;
+
+    function setArrowDirection(pointUp) {
+      isPointingUp = pointUp;
+      if (isPointingUp) {
+        scrollIndicator.classList.add('pointing-up');
+        scrollIndicator.setAttribute('aria-label', 'Scroll para voltar ao topo');
+      } else {
+        scrollIndicator.classList.remove('pointing-up');
+        scrollIndicator.setAttribute('aria-label', 'Scroll para ver mais');
+      }
+    }
 
     scrollIndicator.addEventListener('click', () => {
       if (isPointingUp) {
         // Scroll para o topo
+        isAutoScrolling = true;
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        setArrowDirection(false);
+        window.setTimeout(() => {
+          isAutoScrolling = false;
+        }, 450);
       } else {
         // Scroll para a seção de citações
         const quotesSection = document.querySelector('.quotes-section');
         if (quotesSection) {
+          isAutoScrolling = true;
           quotesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setArrowDirection(true);
+          window.setTimeout(() => {
+            isAutoScrolling = false;
+          }, 450);
         }
       }
     });
 
-    // Detectar posição do scroll e atualizar a direção da seta
+    // Se o usuário voltar ao topo manualmente, volta para baixo.
     window.addEventListener('scroll', () => {
-      const scrollPosition = window.scrollY;
-      const shouldPointUp = scrollPosition > window.innerHeight / 2;
-
-      if (shouldPointUp !== isPointingUp) {
-        isPointingUp = shouldPointUp;
-        if (isPointingUp) {
-          scrollIndicator.classList.add('pointing-up');
-          scrollIndicator.setAttribute('aria-label', 'Scroll para voltar ao topo');
-        } else {
-          scrollIndicator.classList.remove('pointing-up');
-          scrollIndicator.setAttribute('aria-label', 'Scroll para ver mais');
-        }
+      if (!isAutoScrolling && window.scrollY <= 8 && isPointingUp) {
+        setArrowDirection(false);
       }
     });
   }
